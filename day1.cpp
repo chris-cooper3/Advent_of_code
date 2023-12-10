@@ -6,25 +6,56 @@
 
 int main()
 {
-    std::vector<std::vector<int>> vec;
+    // 'std::vector' a dynamic array that can grow in size
+    // '<std::vector<int>>' The type of data stored in the vectors --> which is vector of intergers.
+    // 'vec' is the name of the vector variable
+    std::vector<std::vector<int> > vec;
 
-    std::ifstream file_in("my_file.txt");
+    // 'std::ifstream' a c++ library which stands for input file stream
+    // 'file_in' is an instance name of the object method ifstream
+    std::ifstream file_in("test.txt");
 
+    // A string called line (i.e. each line of the txt file)
     std::string line;
 
-    while (std::getline(file_in, line)) // Read next line to `line`, stop if no more lines.
-    {
-        // Construct so called 'string stream' from `line`, see while loop below for usage.
+    // 'std::getline' a function that reads a line from an input stream.
+    // 'std::getline(file_in, line)' line will store each line from the input stream as a string
+    while (std::getline(file_in, line))
+    { // line in the loop will be the current line
+
+        // 'istringstream' input string stream instance
+        // 'ss' name of the instance 'string stream'
+        // 'ss(line) inputs the string
         std::istringstream ss(line);
 
         vec.push_back({}); // Add one more empty vector (of vectors) to `vec`.
 
+        // Reads in an interger from the input stream ss and stores it as x
+        // add the interger x to the sub vector
+        // if there are no more interegrs ss>> x is false and the next line is read.
         int x;
-        while (ss >> x)              // Read next int from `ss` to `x`, stop if no more ints.
+        while (ss >> x)
             vec.back().push_back(x); // Add it to the last sub-vector of `vec`.
+
+            // Check if the next character is not an integer
+            if (ss.peek() == ',' || ss.peek() == ' ' || ss.peek() == '\t')
+            {
+                ss.ignore(); // Ignore the non-integer character
+            }
+    }
+
+    // Print the contents of the vector
+    for (const auto &subvec : vec)
+    {
+        for (int num : subvec)
+        {
+            std::cout << num << " ";
+        }
+        std::cout << std::endl;
     }
 }
 
+/*
 std::string loadString(const std::string &filename)
 {
     // Open the file
@@ -75,3 +106,4 @@ int main()
 
     return 0;
 }
+*/
