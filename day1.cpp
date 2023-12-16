@@ -3,14 +3,13 @@
 #include <sstream>
 #include <vector>
 
-int main()
-{
+auto extractDigits(std::string file){
     // We've made a vector, that stores subvectors intergers called vec
     std::vector<std::vector<int>> vec;
 
     // 'std::ifstream' a c++ library which stands for input file stream
     // 'file_in' is an instance name of the object method ifstream
-    std::ifstream file_in("cal_doc.txt");
+    std::ifstream file_in(file);
 
     // A string called line (i.e. each line of the txt file)
     std::string line;
@@ -24,8 +23,8 @@ int main()
 
         // iterates over each character in the line
         for (char ch : line)
-        {   
-            //checks if the character is a digit and then if it is, adds it to the subvector.
+        {
+            // checks if the character is a digit and then if it is, adds it to the subvector.
             if (isdigit(ch))
             {
                 // '0' has as ascii value of 48
@@ -37,27 +36,17 @@ int main()
         // adds the subvector to the vector
         vec.push_back(subvec);
     }
+    return vec;
+}
 
-    // Print the contents of the vector
-    // 'const' means the intergers can't be edited
-    // vec is the outer vector loop
-    // subvec is the inner loop
-    for (const std::vector<int> &subvec : vec)
-    {
-        // loops through subvector and prints intergers
-        for (int num : subvec)
-        {
-            std::cout << num << " ";
-        }
-        std::cout << std::endl;
-    }
-
+void part1(std::string file){
+    auto mainVec = extractDigits(file);
     int totalSum = 0;
 
     // for subvec in vec
-    for (const std::vector<int> &subvec : vec)
+    for (const std::vector<int> &subvec : mainVec)
     {
-        std::string concatenated; 
+        std::string concatenated;
 
         if (!subvec.empty())
         {
@@ -83,6 +72,12 @@ int main()
     }
 
     std::cout << "Total Sum: " << totalSum << std::endl;
+}
+
+
+
+int main(){
+    part1("test.txt");
 
     return 0;
 }
