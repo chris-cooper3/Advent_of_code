@@ -2,6 +2,9 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
+#include <map>
+#include <string>
+#include <cctype>
 
 auto extractDigits(std::string file){
     // We've made a vector, that stores subvectors intergers called vec
@@ -74,11 +77,14 @@ void part1(std::string file){
     std::cout << "Total Sum: " << totalSum << std::endl;
 }
 
+// ################### Part 2 ###################//
 
 
-int main(){
-    part1("test.txt");
+int main()
+{
+    part1("test1.txt");
 
+    // part 2
     return 0;
 }
 
