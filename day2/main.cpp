@@ -30,18 +30,18 @@ bool isGamePossible(const std::vector<std::map<std::string, int>> &turns,
     // If no turn exceeds the maximum cubes for any color, the game is possible
     return true;
 }
-
-int main()
+// Function to process part 1 and return the turns for each game
+std::vector<std::vector<std::map<std::string, int>>> part1(const std::string &filename)
 {
-    std::ifstream file("input.txt"); // Open the input file
-    std::string line;
-    int sumOfIds = 0;
-    // Define the maximum number of cubes for each color
     std::map<std::string, int> maxCubes = {{"red", 12}, {"green", 13}, {"blue", 14}};
+    int sumOfIds = 0;
+    std::ifstream file(filename);
+    std::string line;
+
+    std::vector<std::vector<std::map<std::string, int>>> allGameTurns;
 
     while (getline(file, line))
     {
-        // I'm in a line here which is a gane
         std::stringstream ss(line);
         std::string token;
         int gameId;
@@ -52,6 +52,7 @@ int main()
         ss.ignore(2); // Ignore ": "
 
         std::vector<std::map<std::string, int>> turns;
+
         // Parse each turn
         while (getline(ss, token, ';'))
         // I'm now in a substring up to ; which essentially each turn (each handful) within a game
@@ -73,28 +74,22 @@ int main()
                 }
                 cubesInTurn[color] += count;
             }
+
             turns.push_back(cubesInTurn);
         }
-
-        std::cout << "Game turns: ";
-        for (const auto &turn : turns)
-        {
-            std::cout << "{ ";
-            for (const auto &pair : turn)
-            {
-                std::cout << pair.first << " " << pair.second << ", ";
-            }
-            std::cout << "} ";
-        }
-        std::cout << std::endl;
-
-        // Check if the game is possible with the constraints
+        allGameTurns.push_back(turns);
+        
         if (isGamePossible(turns, maxCubes))
         {
-            sumOfIds += gameId; // Add the game ID to the sum
+            sumOfIds += gameId;
         }
     }
-
     std::cout << "Sum of IDs of possible games: " << sumOfIds << std::endl;
+    return allGameTurns;
+}
+
+int main()
+{
+    auto allGameTurns = part1("test.txt");
     return 0;
 }
