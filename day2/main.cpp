@@ -88,8 +88,66 @@ std::vector<std::vector<std::map<std::string, int>>> part1(const std::string &fi
     return allGameTurns;
 }
 
+//######### Part 2 #########//
+std::vector<std::map<std::string, int>> part2(const std::vector<std::vector<std::map<std::string, int>>> &allGameTurns)
+{
+    // a vector of a map of strings
+    std::vector<std::map<std::string, int>> maxCubesPerGame;
+
+    for (const auto &game : allGameTurns)
+    // a loop for each game
+    {
+        std::map<std::string, int> maxCubes;
+
+        for (const auto &turn : game)
+        // a loop for each turn in a game
+        {
+            for (const auto &[color, count] : turn)
+            // a loop for each colour and corresponding count in a turn
+            {
+                auto it = maxCubes.find(color);
+                // if the colour has already been added to the maxCubes map which belongs to the loop through each game.
+                if (it != maxCubes.end())
+                {
+                    // compares the current colour count, to the count that has just been found for the color and adds the larger number to the map
+                    maxCubes[color] = std::max(maxCubes[color], count);
+                }
+                else
+                {
+                    // because the colour wasn't found, add is to the map with the count.
+                    maxCubes[color] = count;
+                }
+            }
+        }
+        // Add the maximum colourd and counts found for this game to the overall map for the whole data set.
+        maxCubesPerGame.push_back(maxCubes);
+    }
+
+    long long totalSum = 0; // Use long long to avoid overflow
+
+    for (const auto &gameMaxCubes : maxCubesPerGame)
+    {
+        long long product = 1; // Start with 1 because multiplying by 1 has no effect
+
+        for (const auto &[color, count] : gameMaxCubes)
+        {
+            product *= count; // Multiply the counts together
+        }
+
+        totalSum += product; // Add the product to the total sum
+    }
+
+    std::cout << "Total sum of products: " << totalSum << std::endl;
+
+    return maxCubesPerGame;
+}
+
 int main()
 {
-    auto allGameTurns = part1("test.txt");
+    auto allGameTurns = part1("input.txt");
+
+    // Find the maximum cubes for each color in each game
+    auto maxCubesPerGame = part2(allGameTurns);
+
     return 0;
 }
