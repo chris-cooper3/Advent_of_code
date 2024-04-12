@@ -1,0 +1,9 @@
+package Base
+	is
+	 type IntergerRange is range -(2**31) .. (2**31)-1;
+	 for IntergerRange'SIZE use 32;
+	private
+end base
+
+microperiod is Base.IntegerRange
+subtype period is microperiod range microperiod(1_000.0) .. microperiod(5_000_000.0);
